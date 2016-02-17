@@ -11,6 +11,20 @@ var NugetFetcher = function(config) {
 
 inherits(NugetFetcher, BaseFetcher);
 
+NugetFetcher.prototype.resolveFetcher = function(locator) {
+  return NugetFetcher.super_.prototype.resolveFetcher.apply(this, arguments).then(function(locator) {
+    // resolve fetcher
+    if(typeof locator.fetcher.value !== "string" || locator.fetcher.value.toLowerCase() != "nuget") throw new Error("Nuget resolution attempted on non-Nuget locator.");
+    locator.fetcher = {
+      value: 'nuget',
+      full: 'nuget',
+      resolved: true
+    };
+    return locator;
+  });
+};
+
+
 NugetFetcher.prototype.resolvePackage = function(locator, force_resolve) {
   var self = this;
   return NugetFetcher.super_.prototype.resolvePackage.apply(this, arguments).then(function doResolve(locator) {
