@@ -1,0 +1,19 @@
+{
+  "name": "nuget",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anuccio1/NugetFetcher.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anuccio1/NugetFetcher/issues"
+  },
+  "homepage": "https://github.com/anuccio1/NugetFetcher#readme"
+}
