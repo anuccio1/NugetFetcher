@@ -14,3 +14,9 @@ nuget.resolve('nuget+elmah$[1.1,1.2.2)').then(function(locator) {
 	// resolves to 1.2.0.1
 	console.log("Resolved nuget+elmah to: " + locator);
 });
+
+nuget.resolve('nuget+elmah$[1.0,)').then(function(locator) {
+	// resolves to 1.2.0.1
+	console.log("Resolved nuget+elmah to: " + locator);
+});
+
