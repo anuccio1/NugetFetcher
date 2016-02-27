@@ -137,11 +137,11 @@ function resolveNugetVersionInterval(revisionInterval, allRevisions) {
   var versionParts = revisionStr.split(',');
   var compareFunc;
 
-  //throw error on invalid edge cases
+  //throw error on invalid edge cases (might have matched the regex)
   if (revisionStr.charAt(0) === ',' && revisionStr.charAt(revisionStr.length-1) === ',') {
     throw new Error('Invalid version interval: ' + revisionInterval);
   }
-
+  //case: (1.0) - this is invalid
   if (openBracket === '(' && closeBracket === ')' && versionParts.length === 1) {
     throw new Error('Invalid version interval: ' + revisionInterval);
   }
