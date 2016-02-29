@@ -117,7 +117,7 @@ function versionComparator (version1, version2) {
   versionParts2 = addTrailingZeros(versionParts2);
 
   var indexCt = 0;
-  while (indexCt < 3) {
+  while (indexCt < 4) {
     if (versionParts1[indexCt] !== versionParts2[indexCt]) {
       return Number(versionParts1[indexCt]) - Number(versionParts2[indexCt]);
     }
