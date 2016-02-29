@@ -209,20 +209,26 @@ NugetFetcher.prototype.resolveRevision = function(locator, force_resolve) {
     var locatorRevision = locator.revision.full;
     var currentVersion;
     var allRevisions = locator.package.metadata.revisions;
-    if (locatorRevision && locatorRevision.toLowerCase() !== 'latest') {  //if version was specified, and not 'latest'
-
-      //based off of this spec: https://docs.nuget.org/create/versioning
-      var versionRangeRegex = /^(\(|\[)(\,)?(\d+\.)?(\d+\.)?(\d+)(\,)?((\d+\.)?(\d+\.)?(\d+))?(\)|\])$/;
-      if (versionRangeRegex.test(locatorRevision)) {  //if this is a range, grab the first version that fits in this range
-        currentVersion = resolveNugetVersionInterval(locatorRevision, allRevisions);
-      } else {
-        currentVersion = locatorRevision;
+    
+    //We sort the revisions list, lowest to highest. Nuget v2.8 states that the lowest package version should be used
+    allRevisions = allRevisions.sort(versionComparator);
+    
+    if (locatorRevision) {  //if version was specified, and not 'latest'
+      if (locatorRevision.toLowerCase() !== 'latest') {
+        //based off of this spec: https://docs.nuget.org/create/versioning
+        var versionRangeRegex = /^(\(|\[)(\,)?(\d+\.)?(\d+\.)?(\d+)(\,)?((\d+\.)?(\d+\.)?(\d+))?(\)|\])$/;
+        if (versionRangeRegex.test(locatorRevision)) {  //if this is a range, grab the first version that fits in this range
+          currentVersion = resolveNugetVersionInterval(locatorRevision, allRevisions);
+        } else {
+          currentVersion = locatorRevision;
+        }
+      } else {  //grab latest
+        currentVersion = locator.package.metadata.latestVersion || allRevisions[allRevisions.length-1];
       }
     } else {
-      //if latestVersion was specified, grab that, otherwise, just grab the first revision in the revisions list
-      currentVersion = locator.package.metadata.latestVersion || allRevisions[0];
+      currentVersion = allRevisions[0]; //if no version specified, grab the earliest package
     }
-
+    
     //if still no version, throw an error
     if (!currentVersion) {
       throw new Error("Revision was unable to be resolved.");
