@@ -102,7 +102,7 @@ NugetFetcher.prototype.fetchPackage = function(url, locator) {
 };
 
 function addTrailingZeros (version) {
-  while (version.length < 3) {
+  while (version.length < 4) {
     version.push(0);
   }
   return version;
